@@ -1,5 +1,4 @@
-pyautogui
-pygetwindow
 keyboard
 pynput
-Pillow
+pyautogui
+PyGetWindow
