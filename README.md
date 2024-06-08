@@ -1,4 +1,5 @@
 ## Blum Crypto Bot Auto-Clicker
+![Blum Crypto Bot Auto-Clicker Logo](https://github.com/code2026r/Blum-Crypto-Bot-Auto-Clicker/raw/main/Logo.png)
 
 This Python script automates clicking on specific pixels in the BlumCryptoBot game on the Telegram desktop client. It is useful for farming Blum Points efficiently.
 
