@@ -1,13 +1,12 @@
-from pyautogui import *
-import pygetwindow as gw
+import asyncio
 import pyautogui
+import pygetwindow as gw
+import random
 import time
 import keyboard
-import random
 from pynput.mouse import Button, Controller
 
 mouse = Controller()
-time.sleep(0.5)
 
 def click(x, y):
     mouse.position = (x, y + random.randint(1, 3))
@@ -15,148 +14,167 @@ def click(x, y):
     mouse.release(Button.left)
 
 def print_welcome(language):
-    if language == '1':
-        print("""
-                           888                   .d8888b.   .d8888b.   .d8888b.   .d8888b.
-                           888                  d88P  Y88b d88P  Y88b d88P  Y88b d88P  Y88b
-                           888                         888 888    888        888 888
-     .d8888b  .d88b.   .d88888  .d88b.  888d888      .d88P 888    888      .d88P 888d888b.
-    d88P"    d88""88b d88" 888 d8P  Y8b 888P"    .od888P"  888    888  .od888P"  888P "Y88b
-    888      888  888 888  888 88888888 888     d88P"      888    888 d88P"      888    888
-    Y88b.    Y88..88P Y88b 888 Y8b.     888     888"       Y88b  d88P 888"       Y88b  d88P
-     "Y8888P  "Y88P"   "Y88888  "Y8888  888     888888888   "Y8888P"  888888888   "Y8888P"
+    welcome_messages = {
+        '1': """
+               888                   .d8888b.   .d8888b.   .d8888b.   .d8888b.
+               888                  d88P  Y88b d88P  Y88b d88P  Y88b d88P  Y88b
+               888                         888 888    888        888 888
+ .d8888b  .d88b.   .d88888  .d88b.  888d888      .d88P 888    888      .d88P 888d888b.
+d88P"    d88""88b d88" 888 d8P  Y8b 888P"    .od888P"  888    888  .od888P"  888P "Y88b
+888      888  888 888  888 88888888 888     d88P"      888    888 d88P"      888    888
+Y88b.    Y88..88P Y88b 888 Y8b.     888     888"       Y88b  d88P 888"       Y88b  d88P
+ "Y8888P  "Y88P"   "Y88888  "Y8888  888     888888888   "Y8888P"  888888888   "Y8888P"
 
-    [!] | Coder2026 | TELEGRAM @Coder2026.                  
-    [!] | Coder2026 | Welcome to the auto-clicker for Blum.
-    [!] | Coder2026 | To select the Telegram Desktop window, enter 1.
-    """)
-    elif language == '2':
-        print("""
-                           888                   .d8888b.   .d8888b.   .d8888b.   .d8888b.
-                           888                  d88P  Y88b d88P  Y88b d88P  Y88b d88P  Y88b
-                           888                         888 888    888        888 888
-     .d8888b  .d88b.   .d88888  .d88b.  888d888      .d88P 888    888      .d88P 888d888b.
-    d88P"    d88""88b d88" 888 d8P  Y8b 888P"    .od888P"  888    888  .od888P"  888P "Y88b
-    888      888  888 888  888 88888888 888     d88P"      888    888 d88P"      888    888
-    Y88b.    Y88..88P Y88b 888 Y8b.     888     888"       Y88b  d88P 888"       Y88b  d88P
-     "Y8888P  "Y88P"   "Y88888  "Y8888  888     888888888   "Y8888P"  888888888   "Y8888P"
+[!] | Coder2026 | TELEGRAM @Coder2026.                  
+[!] | Coder2026 | Welcome to the auto-clicker for Blum.
+[!] | Coder2026 | To select the Telegram Desktop window, enter 1.
+""",
+        '2': """
+               888                   .d8888b.   .d8888b.   .d8888b.   .d8888b.
+               888                  d88P  Y88b d88P  Y88b d88P  Y88b d88P  Y88b
+               888                         888 888    888        888 888
+ .d8888b  .d88b.   .d88888  .d88b.  888d888      .d88P 888    888      .d88P 888d888b.
+d88P"    d88""88b d88" 888 d8P  Y8b 888P"    .od888P"  888    888  .od888P"  888P "Y88b
+888      888  888 888  888 88888888 888     d88P"      888    888 d88P"      888    888
+Y88b.    Y88..88P Y88b 888 Y8b.     888     888"       Y88b  d88P 888"       Y88b  d88P
+ "Y8888P  "Y88P"   "Y88888  "Y8888  888     888888888   "Y8888P"  888888888   "Y8888P"
 
-    [!] | Coder2026 | Telegram @Coder2026.          
-    [!] | Coder2026 | Добро пожаловать в автокликер для Blum.
-    [!] | Coder2026 | Для выбора окна Telegram Desktop введите 1.
-    """)
+[!] | Coder2026 | Telegram @Coder2026.          
+[!] | Coder2026 | Добро пожаловать в автокликер для Blum.
+[!] | Coder2026 | Для выбора окна Telegram Desktop введите 1.
+"""
+    }
+    print(welcome_messages.get(language, welcome_messages['1']))
 
 def print_pause_message(language, paused):
-    if language == '1':
-        if paused:
-            print('[-] | Pause activated, press "q" to continue.')
-        else:
-            print('[+] | Resuming work.')
-    elif language == '2':
-        if paused:
-            print('[-] | Пауза активирована, нажмите "q" для продолжения.')
-        else:
-            print('[+] | Работа продолжается.')
+    pause_messages = {
+        '1': '[-] | Pause activated, press "q" to continue.',
+        '2': '[-] | Пауза активирована, нажмите "q" для продолжения.'
+    }
+    print(pause_messages.get(language, pause_messages['1']) if paused else '[+] | Resuming work.')
 
 def print_not_found_message(language, window_name):
-    if language == '1':
-        print(f"[-] | Window - {window_name} not found!")
-    elif language == '2':
-        print(f"[-] | Окно - {window_name} не найдено!")
+    not_found_messages = {
+        '1': f"[-] | Window - {window_name} not found!",
+        '2': f"[-] | Окно - {window_name} не найдено!"
+    }
+    print(not_found_messages.get(language, not_found_messages['1']))
 
 def print_found_message(language, window_name):
-    if language == '1':
-        print(f"[+] | Window found - {window_name}\n[+] | Press 'q' to pause.")
-    elif language == '2':
-        print(f"[+] | Окно найдено - {window_name}\n[+] | Нажмите 'q' для паузы.")
+    found_messages = {
+        '1': f"[+] | Window found - {window_name}\n[+] | Press 'q' to pause.",
+        '2': f"[+] | Окно найдено - {window_name}\n[+] | Нажмите 'q' для паузы."
+    }
+    print(found_messages.get(language, found_messages['1']))
 
 def print_stop_message(language):
-    if language == '1':
-        print('[!] | Program stopped.')
-    elif language == '2':
-        print('[!] | Программа остановлена.')
+    stop_messages = {
+        '1': '[!] | Program stopped.',
+        '2': '[!] | Программа остановлена.'
+    }
+    print(stop_messages.get(language, stop_messages['1']))
 
-print("Select language / Выберите язык: (1: English, 2: Русский)")
-language = input().strip()
+async def process_window(window_name, language):
+    check = gw.getWindowsWithTitle(window_name)
+    if not check:
+        print_not_found_message(language, window_name)
+    else:
+        print_found_message(language, window_name)
 
-if language not in ['1', '2']:
-    language = '1'  # Default to English if invalid input
+    telegram_window = check[0]
+    paused = False
 
-print_welcome(language)
+    # Color ranges for green bacteria, bombs, and freezing power-up
+    green_bacteria_range = ((102, 200, 0), (220, 255, 125))  # Specify the range for green bacteria more accurately
+    bomb_range = ((50, 50, 50), (200, 200, 200))  # Approximate range for bombs
+    freeze_powerup_range = ((50, 50, 200), (150, 150, 255))  # Approximate range for freezing power-up
 
-window_name = input('\nEnter 1 to select the window / Введите 1 для выбора окна: ')
+    while True:
+        if keyboard.is_pressed('q'):
+            paused = not paused
+            print_pause_message(language, paused)
+            await asyncio.sleep(0.2)
 
-if window_name == '1':
-    window_name = "TelegramDesktop"
+        if paused:
+            await asyncio.sleep(0.1)
+            continue
 
-check = gw.getWindowsWithTitle(window_name)
-if not check:
-    print_not_found_message(language, window_name)
-else:
-    print_found_message(language, window_name)
+        window_rect = (
+            telegram_window.left, telegram_window.top, telegram_window.width, telegram_window.height
+        )
 
-telegram_window = check[0]
-paused = False
+        if telegram_window != []:
+            try:
+                telegram_window.activate()
+            except:
+                telegram_window.minimize()
+                telegram_window.restore()
 
-# Color ranges for green bacteria and bombs
-green_bacteria_range = ((102, 200, 0), (220, 255, 125))  # Specify the range for green bacteria more accurately
-bomb_range = ((50, 50, 50), (200, 200, 200))  # Approximate range for bombs
+        scrn = pyautogui.screenshot(region=(window_rect[0], window_rect[1], window_rect[2], window_rect[3]))
 
-while True:
-    if keyboard.is_pressed('q'):
-        paused = not paused
-        print_pause_message(language, paused)
-        time.sleep(0.2)
+        width, height = scrn.size
+        pixel_found = False
+        if pixel_found == True:
+            break
 
-    if paused:
-        continue
+        freeze_detected = False  # Flag to indicate if freezing power-up is detected
+        for x in range(0, width, 20):
+            for y in range(0, height, 20):
+                r, g, b = scrn.getpixel((x, y))
 
-    window_rect = (
-        telegram_window.left, telegram_window.top, telegram_window.width, telegram_window.height
-    )
-
-    if telegram_window != []:
-        try:
-            telegram_window.activate()
-        except:
-            telegram_window.minimize()
-            telegram_window.restore()
-
-    scrn = pyautogui.screenshot(region=(window_rect[0], window_rect[1], window_rect[2], window_rect[3]))
-
-    width, height = scrn.size
-    pixel_found = False
-    if pixel_found == True:
-        break
-
-    for x in range(0, width, 20):
-        for y in range(0, height, 20):
-            r, g, b = scrn.getpixel((x, y))
-
-            # Check for green bacteria
-            if (b in range(0, 125)) and (r in range(102, 220)) and (g in range(200, 255)):
-                screen_x = window_rect[0] + x
-                screen_y = window_rect[1] + y
-
-                # Additional check to avoid clicking on bombs
-                # Check a small area around the pixel to ensure it's not a bomb
-                is_bomb = False
-                try:
-                    for bx in range(-5, 6):
-                        for by in range(-5, 6):
-                            br, bg, bb = scrn.getpixel((x + bx, y + by))
-                            if bomb_range[0][0] <= br <= bomb_range[1][0] and bomb_range[0][1] <= bg <= bomb_range[1][1] and bomb_range[0][2] <= bb <= bomb_range[1][2]:
-                                is_bomb = True
-                                break
-                        if is_bomb:
-                            break
-                except:
-                    continue
-
-                if not is_bomb:
+                # Check for freezing power-up
+                if freeze_powerup_range[0][0] <= r <= freeze_powerup_range[1][0] and \
+                   freeze_powerup_range[0][1] <= g <= freeze_powerup_range[1][1] and \
+                   freeze_powerup_range[0][2] <= b <= freeze_powerup_range[1][2]:
+                    freeze_detected = True
+                    screen_x = window_rect[0] + x
+                    screen_y = window_rect[1] + y
                     click(screen_x + 4, screen_y)
-                    time.sleep(0.001)
-                    pixel_found = True
-                    break
+                    await asyncio.sleep(0.001)
 
-print_stop_message(language)
+                # Check for green bacteria
+                if (b in range(0, 125)) and (r in range(102, 220)) and (g in range(200, 255)):
+                    screen_x = window_rect[0] + x
+                    screen_y = window_rect[1] + y
+
+                    # Additional check to avoid clicking on bombs
+                    # Check a small area around the pixel to ensure it's not a bomb
+                    is_bomb = False
+                    try:
+                        for bx in range(-5, 6):
+                            for by in range(-5, 6):
+                                br, bg, bb = scrn.getpixel((x + bx, y + by))
+                                if bomb_range[0][0] <= br <= bomb_range[1][0] and bomb_range[0][1] <= bg <= bomb_range[1][1] and bomb_range[0][2] <= bb <= bomb_range[1][2]:
+                                    is_bomb = True
+                                    break
+                            if is_bomb:
+                                break
+                    except:
+                        continue
+
+                    if not is_bomb and not freeze_detected:  # Only click if freezing power-up not detected
+                        click(screen_x + 4, screen_y)
+                        await asyncio.sleep(0.001)
+                        pixel_found = True
+                        break
+
+    print_stop_message(language)
+
+async def main():
+    print("Select language / Выберите язык: (1: English, 2: Русский)")
+    language = input().strip()
+
+    if language not in ['1', '2']:
+        language = '1'  # Default to English if invalid input
+
+    print_welcome(language)
+
+    window_name = input('\nEnter 1 to select the window / Введите 1 для выбора окна: ')
+
+    if window_name == '1':
+        window_name = "TelegramDesktop"
+
+    await process_window(window_name, language)
+
+if __name__ == "__main__":
+    asyncio.run(main())
